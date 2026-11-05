@@ -20,7 +20,7 @@ import requests
 from bs4 import BeautifulSoup
 
 CHANNEL_URL = "https://t.me/s/prodigeekOfferte"
-KEYWORDS = [""]   # basta che ne compaia una
+KEYWORDS = ["aubox", "chuwi"]   # basta che ne compaia una
 MIN_RAM_GB = 16
 MIN_SSD_GB = 512
 MAX_PRICE = 250.0
