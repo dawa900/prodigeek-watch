@@ -1,0 +1,34 @@
+name: Prodigeek watch
+
+on:
+  schedule:
+    - cron: "*/5 * * * *"
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  watch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - run: pip install requests beautifulsoup4
+
+      - name: Run watcher
+        env:
+          TG_TOKEN: ${{ secrets.TG_TOKEN }}
+          TG_CHAT_ID: ${{ secrets.TG_CHAT_ID }}
+        run: python prodigeek_watch.py
+
+      - name: Save seen posts
+        run: |
+          git config user.name "github-actions"
+          git config user.email "actions@github.com"
+          git add seen_posts.json
+          git diff --staged --quiet || (git commit -m "update seen posts" && git push)
